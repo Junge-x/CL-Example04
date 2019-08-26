@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>员工信息展示</title>
+    <script type="text/javascript" src="./js/axios.js"></script>
+    <script type="text/javascript" src="./js/jquery-2.1.0.js"></script>
+    <style type="text/css">
+        body{ text-align:center} 
+        #table{margin:0 auto;width:300px;height:100px;}
+        table,th,td
+            {
+                border:1px solid blue;
+            }
+        </style>
+</head>
+<body>
+    <div style="width:70%;height: 80%;background-color:beige ;text-align: center ;margin:0 auto;">
+        <h1>
+            员工信息查询
+        </h1>
+        <div>
+            <label>请输入所要查询的员工号：</label>
+            <input id="usercode"></input>
+            <button onclick="serch();">查询</button>
+        </div>
+            <br>
+
+            <div id="table" style="text-align: center">
+            </div>
+        </div>
+
+</body>
+<script>
+    function serch() {
+        var code = document.getElementById("usercode").value;
+        console.log(code);
+        let params = {"usercode":code,}
+        axios.post("http://192.168.51.243:8080/showemployee",params
+        ).then((res) => {
+            console.log(res.data.usercoed);
+            console.log(res)
+            var userdata = res.data;
+            var html = "<table style='width:300px;border:5px solid blue;'>" +
+                "<tr>" +
+                        "<th>员工编号</th><th>员工姓名</th><th>所属部门</th>"+
+                "</tr>"+
+                 "<tr>" +
+                        "<td>"+res.data.usercode+"</td>"+
+                        "<td>"+res.data.username+"</td>"+
+                        "<td>"+res.data.department+"</td>"+
+                "</tr>"+
+                "</table>";
+            $("#table").html(html)
+    }).catch((err) => {
+            console.log(err);
+    })
+    }
+</script>
+</html>
